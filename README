@@ -21,3 +21,44 @@ For support, use the following resources:
    https://sourceforge.net/p/c-icap/wiki/configcicap/
  - c-icap service developers should start from here:
    https://sourceforge.net/p/c-icap/wiki/Developers/
+
+## TSNLab
+
+### How to run?
+```Bash
+sudo apt-get install c-icap build-essential autoconf automake libtool libbrotli-dev libz-dev libbz2-dev
+
+git clone https://github.com/tsnlab/c-icap-server
+cd c-icap-server
+autoreconf -i
+./configure
+cd services/tsnlab_echo # Example
+make
+ls .libs/tsnlab_echo.so
+cp .libs/tsnlab_echo.so /usr/lib/x86_64-linux-gnu/c_icap/ # x86 Ubuntu 24.04
+```
+
+#### C-ICAP Server Config
+```Bash
+# sudo vi /etc/c-icap/c-icap.conf
+
+Service tsnlab_echo tsnlab_echo.so
+```
+
+#### Squid Proxy Server Config
+```Bash
+# sudo vi /etc/squid/squid.conf
+
+# ICAP Server Enable
+icap_enable on
+icap_send_client_ip on
+icap_send_client_username on
+
+# ICAP Server Address Configuration (ICAP Default Port 1344)
+icap_service service_tsnlab_req reqmod_precache icap://localhost:1344/tsnlab_echo
+icap_service service_tsnlab_resp respmod_precache icap://localhost:1344/tsnlab_echo
+
+# Service Registration (All Traffic)
+adaptation_access service_tsnlab_req allow all
+adaptation_access service_tsnlab_resp allow all
+```
