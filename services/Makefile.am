@@ -3,7 +3,7 @@
 
 #SUBDIRS = @BUILD_SERVICES@
 
-SUBDIRS = echo ex-206
+SUBDIRS = echo ex-206 tsnlab_echo
 
 #SUBDIRS += url_check
 

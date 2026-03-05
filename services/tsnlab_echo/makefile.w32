@@ -1,0 +1,13 @@
+!include <win32.mak>
+
+all: tsnlab_echo.Dll
+
+.c.obj:
+	$(cc) /I..\..\include /I..\..\ $(cdebug) $(cflags) $(cvarsdll) -I. -DCI_BUILD_MODULE -DUNICODE $*.c
+
+tsnlab_echo.Dll: tsnlab_echo.obj
+	$(link) $(linkdebug) $(dlllflags) /LIBPATH:..\..\ c_icap.lib -def:tsnlab_echo.def -out:$*.Dll $** $(DLL_ENTRY)  $(EXTRA_LIBS)
+
+clean:
+	del *.obj *.exe *.lib
+
