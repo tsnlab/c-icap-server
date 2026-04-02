@@ -62,3 +62,9 @@ icap_service service_tsnlab_resp respmod_precache icap://localhost:1344/tsnlab_e
 adaptation_access service_tsnlab_req allow all
 adaptation_access service_tsnlab_resp allow all
 ```
+
+### Restart C-ICAP Server and Squid Proxy
+```Bash
+sudo systemctl restart c-icap
+sudo systemctl restart squid
+```
